@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let url = "https://api.seatgeek.com/2/events"
+    let url = "https://api.seatgeek.com/2/events?client_id=MjE1MTE5MDl8MTYxMTI4MTg5OC42MDgwMQ"
 
     override func viewDidLoad() {
         super.viewDidLoad()
