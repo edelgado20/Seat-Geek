@@ -15,6 +15,7 @@
 		3F59C0D425BA719D002462B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F59C0D225BA719D002462B5 /* LaunchScreen.storyboard */; };
 		3F59C0DF25BA719D002462B5 /* SeatGeekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59C0DE25BA719D002462B5 /* SeatGeekTests.swift */; };
 		3F59C0EA25BA719D002462B5 /* SeatGeekUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59C0E925BA719D002462B5 /* SeatGeekUITests.swift */; };
+		3F59C0FC25BA80D0002462B5 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59C0FB25BA80D0002462B5 /* Events.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		3F59C0E525BA719D002462B5 /* SeatGeekUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeatGeekUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F59C0E925BA719D002462B5 /* SeatGeekUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatGeekUITests.swift; sourceTree = "<group>"; };
 		3F59C0EB25BA719D002462B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3F59C0FB25BA80D0002462B5 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 		3F59C0C625BA7199002462B5 /* SeatGeek */ = {
 			isa = PBXGroup;
 			children = (
+				3F59C0FA25BA80B2002462B5 /* Model */,
 				3F59C0C725BA7199002462B5 /* AppDelegate.swift */,
 				3F59C0C925BA7199002462B5 /* SceneDelegate.swift */,
 				3F59C0CB25BA7199002462B5 /* ViewController.swift */,
@@ -126,6 +129,14 @@
 				3F59C0EB25BA719D002462B5 /* Info.plist */,
 			);
 			path = SeatGeekUITests;
+			sourceTree = "<group>";
+		};
+		3F59C0FA25BA80B2002462B5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F59C0FB25BA80D0002462B5 /* Events.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,6 +269,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F59C0FC25BA80D0002462B5 /* Events.swift in Sources */,
 				3F59C0CC25BA7199002462B5 /* ViewController.swift in Sources */,
 				3F59C0C825BA7199002462B5 /* AppDelegate.swift in Sources */,
 				3F59C0CA25BA7199002462B5 /* SceneDelegate.swift in Sources */,
