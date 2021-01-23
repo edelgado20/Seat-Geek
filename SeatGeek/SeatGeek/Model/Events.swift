@@ -26,7 +26,7 @@ struct Events: Codable {
 
 // MARK: - Event
 struct Event: Codable {
-    let type: TypeEnum
+    let type: String
     let id: Int
     let datetimeUTC: String
     let venue: Venue
@@ -36,7 +36,8 @@ struct Event: Codable {
     let links: [JSONAny]
     let datetimeLocal: String
     let timeTbd: Bool
-    let shortTitle, visibleUntilUTC: String
+    let shortTitle: String
+    let visibleUntilUTC: String
     let stats: EventStats
     let taxonomies: [Taxonomy]
     let url: String
@@ -53,7 +54,6 @@ struct Event: Codable {
     let conditional: Bool
     let enddatetimeUTC: JSONNull?
     let themes, domainInformation: [JSONAny]
-    let generalAdmission: Bool?
 
     enum CodingKeys: String, CodingKey {
         case type, id
@@ -80,14 +80,13 @@ struct Event: Codable {
         case enddatetimeUTC = "enddatetime_utc"
         case themes
         case domainInformation = "domain_information"
-        case generalAdmission = "general_admission"
     }
 }
 
 // MARK: - AccessMethod
 struct AccessMethod: Codable {
     let method: String
-    let createdAt: Date
+    let createdAt: String
     let employeeOnly: Bool
 
     enum CodingKeys: String, CodingKey {
@@ -97,9 +96,20 @@ struct AccessMethod: Codable {
     }
 }
 
+//enum Method: String, Codable {
+//    case qrcode = "QRCODE"
+//    case qrcodeTm = "QRCODE_TM"
+//}
+
 // MARK: - InHand
 struct InHand: Codable {
 }
+
+//enum DatetimeUTC: String, Codable {
+//    case the20210123T000000 = "2021-01-23T00:00:00"
+//    case the20210123T001000 = "2021-01-23T00:10:00"
+//    case the20210123T003000 = "2021-01-23T00:30:00"
+//}
 
 // MARK: - Performer
 struct Performer: Codable {
@@ -119,12 +129,11 @@ struct Performer: Codable {
     let homeVenueID: Int?
     let shortName: String
     let numUpcomingEvents: Int
-    let colors: JSONNull?
+    let colors: Colors?
     let imageLicense: String?
     let popularity: Int
-    let homeTeam: Bool?
     let location: Location?
-    let awayTeam: Bool?
+    let homeTeam, awayTeam: Bool?
 
     enum CodingKeys: String, CodingKey {
         case type, name, image, id, images, divisions
@@ -137,11 +146,17 @@ struct Performer: Codable {
         case numUpcomingEvents = "num_upcoming_events"
         case colors
         case imageLicense = "image_license"
-        case popularity
+        case popularity, location
         case homeTeam = "home_team"
-        case location
         case awayTeam = "away_team"
     }
+}
+
+// MARK: - Colors
+struct Colors: Codable {
+    let all: [String]
+    let iconic: String
+    let primary: [String]
 }
 
 // MARK: - Division
@@ -190,7 +205,7 @@ struct PerformerStats: Codable {
 // MARK: - Taxonomy
 struct Taxonomy: Codable {
     let id: Int
-    let name: TypeEnum
+    let name: String
     let parentID: Int?
     let documentSource: DocumentSource?
     let rank: Int
@@ -220,17 +235,6 @@ enum GenerationType: String, Codable {
 
 enum SourceType: String, Codable {
     case elastic = "ELASTIC"
-}
-
-enum TypeEnum: String, Codable {
-    case basketball = "basketball"
-    case comedy = "comedy"
-    case family = "family"
-    case mls = "mls"
-    case ncaaWomensBasketball = "ncaa_womens_basketball"
-    case soccer = "soccer"
-    case sports = "sports"
-    case theater = "theater"
 }
 
 // MARK: - EventStats
@@ -302,6 +306,12 @@ enum Timezone: String, Codable {
     case americaIndianaIndianapolis = "America/Indiana/Indianapolis"
     case americaNewYork = "America/New_York"
 }
+
+//enum VisibleUntilUTC: String, Codable {
+//    case the20210123T040000 = "2021-01-23T04:00:00"
+//    case the20210123T041000 = "2021-01-23T04:10:00"
+//    case the20210123T043000 = "2021-01-23T04:30:00"
+//}
 
 // MARK: - Meta
 struct Meta: Codable {
@@ -556,5 +566,3 @@ class JSONAny: Codable {
         }
     }
 }
-
-
