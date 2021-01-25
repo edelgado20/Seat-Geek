@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F1725AB25BE94DD00361415 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1725AA25BE94DD00361415 /* EventTableViewCell.swift */; };
 		3F59C0C825BA7199002462B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59C0C725BA7199002462B5 /* AppDelegate.swift */; };
 		3F59C0CA25BA7199002462B5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59C0C925BA7199002462B5 /* SceneDelegate.swift */; };
 		3F59C0CC25BA7199002462B5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59C0CB25BA7199002462B5 /* ViewController.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F1725AA25BE94DD00361415 /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
 		3F59C0C425BA7199002462B5 /* SeatGeek.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeatGeek.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F59C0C725BA7199002462B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F59C0C925BA7199002462B5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +82,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F2326EB25BE5A6300A71184 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		3F59C0BB25BA7199002462B5 = {
 			isa = PBXGroup;
 			children = (
@@ -103,11 +112,13 @@
 		3F59C0C625BA7199002462B5 /* SeatGeek */ = {
 			isa = PBXGroup;
 			children = (
+				3F2326EB25BE5A6300A71184 /* ViewModel */,
+				3F59C11025BE4AC8002462B5 /* Controllers */,
+				3F59C10F25BE4ABF002462B5 /* View */,
 				3F59C10925BBDF59002462B5 /* Networking */,
 				3F59C0FA25BA80B2002462B5 /* Model */,
 				3F59C0C725BA7199002462B5 /* AppDelegate.swift */,
 				3F59C0C925BA7199002462B5 /* SceneDelegate.swift */,
-				3F59C0CB25BA7199002462B5 /* ViewController.swift */,
 				3F59C0CD25BA7199002462B5 /* Main.storyboard */,
 				3F59C0D025BA719D002462B5 /* Assets.xcassets */,
 				3F59C0D225BA719D002462B5 /* LaunchScreen.storyboard */,
@@ -148,6 +159,22 @@
 				3F59C10A25BBDF8F002462B5 /* NetworkClient.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		3F59C10F25BE4ABF002462B5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F1725AA25BE94DD00361415 /* EventTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3F59C11025BE4AC8002462B5 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3F59C0CB25BA7199002462B5 /* ViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -280,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F1725AB25BE94DD00361415 /* EventTableViewCell.swift in Sources */,
 				3F59C0FC25BA80D0002462B5 /* Events.swift in Sources */,
 				3F59C10B25BBDF8F002462B5 /* NetworkClient.swift in Sources */,
 				3F59C0CC25BA7199002462B5 /* ViewController.swift in Sources */,
@@ -461,6 +489,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5SJXENS48L;
 				INFOPLIST_FILE = SeatGeek/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -479,6 +508,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5SJXENS48L;
 				INFOPLIST_FILE = SeatGeek/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
