@@ -266,7 +266,7 @@ enum Status: String, Codable {
 struct Venue: Codable {
     let state, nameV2, postalCode, name: String
     let links: [JSONAny]
-    let timezone: Timezone
+    let timezone: String
     let url: String
     let score: Double
     let location: Location
@@ -301,11 +301,11 @@ enum Country: String, Codable {
     case us = "US"
 }
 
-enum Timezone: String, Codable {
-    case americaChicago = "America/Chicago"
-    case americaIndianaIndianapolis = "America/Indiana/Indianapolis"
-    case americaNewYork = "America/New_York"
-}
+//enum Timezone: String, Codable {
+//    case americaChicago = "America/Chicago"
+//    case americaIndianaIndianapolis = "America/Indiana/Indianapolis"
+//    case americaNewYork = "America/New_York"
+//}
 
 //enum VisibleUntilUTC: String, Codable {
 //    case the20210123T040000 = "2021-01-23T04:00:00"
