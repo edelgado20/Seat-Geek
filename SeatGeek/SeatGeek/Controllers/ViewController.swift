@@ -56,6 +56,24 @@ class ViewController: UIViewController {
         }
         task.resume()
     }
+    
+    func utcToLocal(dateString: String) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        
+        if let date = dateFormatter.date(from: dateString) {
+            dateFormatter.timeZone = .current
+            dateFormatter.dateFormat = "E, dd MMM yyyy\nhh:mm a"
+            
+            print("-> \(dateFormatter.string(from: date))")
+            return dateFormatter.string(from: date)
+        } else {
+            print("else")
+        }
+   
+        return nil
+    }
 
 }
 
@@ -70,7 +88,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         
         cell.nameLabel.text = events[indexPath.row].title
         cell.locationLabel.text = events[indexPath.row].venue.displayLocation
-        cell.dateLabel.text = events[indexPath.row].datetimeUTC
+        cell.dateLabel.text = utcToLocal(dateString: events[indexPath.row].datetimeUTC)
         
         return cell
     }
