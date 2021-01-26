@@ -68,6 +68,9 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath) as? EventTableViewCell else { fatalError("Unable to declare tableView cell")}
         
+        cell.nameLabel.text = events[indexPath.row].title
+        cell.locationLabel.text = events[indexPath.row].venue.displayLocation
+        cell.dateLabel.text = events[indexPath.row].datetimeUTC
         
         return cell
     }

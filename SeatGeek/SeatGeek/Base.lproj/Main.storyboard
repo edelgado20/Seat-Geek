@@ -63,12 +63,21 @@
                                                         </label>
                                                     </subviews>
                                                 </stackView>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart" translatesAutoresizingMaskIntoConstraints="NO" id="siL-7x-IMF">
+                                                    <rect key="frame" x="10" y="4" width="30" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="P0D-yl-2vL"/>
+                                                        <constraint firstAttribute="height" constant="30" id="pyx-jE-pph"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="cUB-pw-67j" firstAttribute="leading" secondItem="tlT-21-kej" secondAttribute="trailing" constant="24" id="0Q5-Z3-qZM"/>
+                                                <constraint firstItem="siL-7x-IMF" firstAttribute="top" secondItem="QKw-1h-M4G" secondAttribute="top" constant="4" id="3FB-zx-Wki"/>
                                                 <constraint firstItem="tlT-21-kej" firstAttribute="leading" secondItem="QKw-1h-M4G" secondAttribute="leading" constant="24" id="6vi-KR-rBZ"/>
                                                 <constraint firstItem="tlT-21-kej" firstAttribute="top" secondItem="QKw-1h-M4G" secondAttribute="top" constant="16" id="E26-pl-EFJ"/>
                                                 <constraint firstItem="cUB-pw-67j" firstAttribute="top" secondItem="QKw-1h-M4G" secondAttribute="top" constant="16" id="OOG-SU-CFZ"/>
+                                                <constraint firstItem="siL-7x-IMF" firstAttribute="leading" secondItem="QKw-1h-M4G" secondAttribute="leading" constant="10" id="UG8-O9-H1x"/>
                                                 <constraint firstAttribute="bottom" secondItem="cUB-pw-67j" secondAttribute="bottom" constant="16" id="jVC-fP-kbW"/>
                                                 <constraint firstAttribute="trailing" secondItem="cUB-pw-67j" secondAttribute="trailing" constant="20" id="xVU-Q3-Mct"/>
                                             </constraints>
@@ -76,8 +85,10 @@
                                         <connections>
                                             <outlet property="dateLabel" destination="bVK-KF-9D8" id="v5c-Le-FLP"/>
                                             <outlet property="eventImageView" destination="tlT-21-kej" id="7YG-ud-ckx"/>
+                                            <outlet property="heartImgView" destination="siL-7x-IMF" id="RcM-fl-hxE"/>
                                             <outlet property="locationLabel" destination="twS-Sb-ozt" id="8Vn-Oc-WOC"/>
                                             <outlet property="nameLabel" destination="3Qf-9y-W4K" id="HWq-EP-WMp"/>
+                                            <segue destination="rne-zB-1AV" kind="show" id="dmm-YI-tVk"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -105,6 +116,60 @@
             </objects>
             <point key="canvasLocation" x="1729.2307692307693" y="74.644549763033169"/>
         </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="RZt-hj-ODW">
+            <objects>
+                <viewController id="rne-zB-1AV" customClass="DetailViewController" customModule="SeatGeek" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rQD-cr-eMH">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="94r-7G-eAb">
+                                <rect key="frame" x="20" y="108" width="350" height="250"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="7on-yf-gb6"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="vgJ-oP-fcl">
+                                <rect key="frame" x="20" y="378" width="350" height="46.333333333333314"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tuesday, 24 Nov 2020 01:45 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KtN-DK-Gek">
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="20.333333333333332"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tampa, FL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snJ-8p-Ufw">
+                                        <rect key="frame" x="0.0" y="28.333333333333314" width="350" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" systemColor="systemGrayColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="DfB-mA-LR8"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="94r-7G-eAb" firstAttribute="leading" secondItem="DfB-mA-LR8" secondAttribute="leading" constant="20" id="9QG-Hb-hY8"/>
+                            <constraint firstItem="vgJ-oP-fcl" firstAttribute="leading" secondItem="DfB-mA-LR8" secondAttribute="leading" constant="20" id="Dwn-G5-T5m"/>
+                            <constraint firstItem="94r-7G-eAb" firstAttribute="top" secondItem="DfB-mA-LR8" secondAttribute="top" constant="20" id="FFB-jP-6WC"/>
+                            <constraint firstItem="vgJ-oP-fcl" firstAttribute="top" secondItem="94r-7G-eAb" secondAttribute="bottom" constant="20" id="Qey-6P-tlP"/>
+                            <constraint firstItem="DfB-mA-LR8" firstAttribute="trailing" secondItem="vgJ-oP-fcl" secondAttribute="trailing" constant="20" id="SDw-1T-qUf"/>
+                            <constraint firstItem="DfB-mA-LR8" firstAttribute="trailing" secondItem="94r-7G-eAb" secondAttribute="trailing" constant="20" id="TTV-iS-rEb"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="QX0-Y7-sbD"/>
+                    <connections>
+                        <outlet property="dateLabel" destination="KtN-DK-Gek" id="bcz-i9-AeM"/>
+                        <outlet property="imgView" destination="94r-7G-eAb" id="3Uy-Jc-AFd"/>
+                        <outlet property="locationLabel" destination="snJ-8p-Ufw" id="wOX-nC-4KQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V61-R8-4Rr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2530.7692307692305" y="74.644549763033169"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="x3e-bh-H0r">
             <objects>
@@ -125,6 +190,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="heart" width="994" height="984"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
