@@ -22,14 +22,39 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+        //navigationController?.navigationBar.barTintColor = .purple
+        //navigationController?.navigationBar.titleTextAttributes = [.]
         
+        setupSearchController()
         networkClient.fetchEvents{ (eventsSummary) in
             self.events = eventsSummary.events
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        if let index = self.tableView.indexPathForSelectedRow {
+            self.tableView.deselectRow(at: index, animated: true)
+        }
+        
+    }
+    
+    func setupSearchController() {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = "Search events"
+        
+        let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = .red
+        
+        searchController.searchBar.barTintColor = .black
+        searchController.searchBar.tintColor = .white
+        //searchController.searchBar.backgroundColor = .blue
+
+        navigationItem.searchController = searchController
     }
     
     func utcToLocal(dateString: String) -> String? {
@@ -61,6 +86,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath) as? EventTableViewCell else { fatalError("Unable to declare tableView cell")}
         
+        cell.heartImgView.isHidden = true
         cell.nameLabel.text = events[indexPath.row].title
         cell.locationLabel.text = events[indexPath.row].venue.displayLocation
         cell.dateLabel.text = utcToLocal(dateString: events[indexPath.row].datetimeUTC)
@@ -73,3 +99,9 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+extension ViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        print(text)
+    }
+}
