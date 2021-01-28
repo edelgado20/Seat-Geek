@@ -22,8 +22,6 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //navigationController?.navigationBar.barTintColor = .purple
-        //navigationController?.navigationBar.titleTextAttributes = [.]
         
         setupSearchController()
         networkClient.fetchEvents{ (eventsSummary) in
@@ -46,13 +44,9 @@ class ViewController: UIViewController {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "Search events"
-        
-        let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
-        textFieldInsideSearchBar?.textColor = .red
-        
-        searchController.searchBar.barTintColor = .black
-        searchController.searchBar.tintColor = .white
-        //searchController.searchBar.backgroundColor = .blue
+        searchController.searchBar.tintColor = .white // cancel button text color
+        searchController.searchBar.barStyle = .black // text field text color
+        searchController.searchBar.searchTextField.leftView?.tintColor = .white // search icon
 
         navigationItem.searchController = searchController
     }
