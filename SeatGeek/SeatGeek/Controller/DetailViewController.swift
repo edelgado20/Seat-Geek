@@ -16,10 +16,13 @@ class DetailViewController: UIViewController {
     let backButton = UIButton(type: .custom)
     var heartButton = UIButton(type: .custom)
     
+    var event: Event? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupNavigationBarItems()
+        setupLabels()
         
 //        //self.title = "Los Angeles Rams at Tampa Bay Buccaneers"
 //        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 150))
@@ -55,7 +58,7 @@ class DetailViewController: UIViewController {
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
         titleLabel.textAlignment = .left
         titleLabel.textColor = .white
-        titleLabel.text = "Los Angeles Rams at Tampa Bay Buccaneers"
+        titleLabel.text = event?.title//"Los Angeles Rams at Tampa Bay Buccaneers"
         titleLabel.backgroundColor = .blue
         navigationItem.titleView = titleLabel
         
@@ -67,6 +70,11 @@ class DetailViewController: UIViewController {
         heartBarButtonItem.customView?.heightAnchor.constraint(equalToConstant: 24).isActive = true
         heartBarButtonItem.customView?.backgroundColor = .brown
         navigationItem.rightBarButtonItem = heartBarButtonItem
+    }
+    
+    func setupLabels() {
+        dateLabel.text = event?.datetimeUTC
+        locationLabel.text = event?.venue.displayLocation
     }
     
     @objc func backBtnTapped() {

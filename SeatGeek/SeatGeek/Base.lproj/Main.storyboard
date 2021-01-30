@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Master View Controller-->
         <scene sceneID="GAz-aV-ANi">
             <objects>
-                <viewController id="eEt-6S-oqF" customClass="ViewController" customModule="SeatGeek" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="eEt-6S-oqF" customClass="MasterViewController" customModule="SeatGeek" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="r3L-kH-bgi">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -89,7 +89,7 @@
                                             <outlet property="heartImgView" destination="siL-7x-IMF" id="RcM-fl-hxE"/>
                                             <outlet property="locationLabel" destination="twS-Sb-ozt" id="8Vn-Oc-WOC"/>
                                             <outlet property="nameLabel" destination="3Qf-9y-W4K" id="HWq-EP-WMp"/>
-                                            <segue destination="rne-zB-1AV" kind="show" id="dmm-YI-tVk"/>
+                                            <segue destination="rne-zB-1AV" kind="show" identifier="segueToDetail" id="dmm-YI-tVk"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

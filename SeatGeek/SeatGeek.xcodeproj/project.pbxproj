@@ -11,7 +11,7 @@
 		3F1725B625BF8E5900361415 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1725B525BF8E5900361415 /* DetailViewController.swift */; };
 		3F59C0C825BA7199002462B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59C0C725BA7199002462B5 /* AppDelegate.swift */; };
 		3F59C0CA25BA7199002462B5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59C0C925BA7199002462B5 /* SceneDelegate.swift */; };
-		3F59C0CC25BA7199002462B5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59C0CB25BA7199002462B5 /* ViewController.swift */; };
+		3F59C0CC25BA7199002462B5 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59C0CB25BA7199002462B5 /* MasterViewController.swift */; };
 		3F59C0CF25BA7199002462B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F59C0CD25BA7199002462B5 /* Main.storyboard */; };
 		3F59C0D125BA719D002462B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F59C0D025BA719D002462B5 /* Assets.xcassets */; };
 		3F59C0D425BA719D002462B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F59C0D225BA719D002462B5 /* LaunchScreen.storyboard */; };
@@ -44,7 +44,7 @@
 		3F59C0C425BA7199002462B5 /* SeatGeek.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeatGeek.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F59C0C725BA7199002462B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F59C0C925BA7199002462B5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3F59C0CB25BA7199002462B5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3F59C0CB25BA7199002462B5 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		3F59C0CE25BA7199002462B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3F59C0D025BA719D002462B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F59C0D325BA719D002462B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -115,7 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				3F2326EB25BE5A6300A71184 /* ViewModel */,
-				3F59C11025BE4AC8002462B5 /* Controllers */,
+				3F59C11025BE4AC8002462B5 /* Controller */,
 				3F59C10F25BE4ABF002462B5 /* View */,
 				3F59C10925BBDF59002462B5 /* Networking */,
 				3F59C0FA25BA80B2002462B5 /* Model */,
@@ -171,13 +171,13 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		3F59C11025BE4AC8002462B5 /* Controllers */ = {
+		3F59C11025BE4AC8002462B5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				3F59C0CB25BA7199002462B5 /* ViewController.swift */,
+				3F59C0CB25BA7199002462B5 /* MasterViewController.swift */,
 				3F1725B525BF8E5900361415 /* DetailViewController.swift */,
 			);
-			path = Controllers;
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,7 +313,7 @@
 				3F1725AB25BE94DD00361415 /* EventTableViewCell.swift in Sources */,
 				3F59C0FC25BA80D0002462B5 /* Events.swift in Sources */,
 				3F59C10B25BBDF8F002462B5 /* NetworkClient.swift in Sources */,
-				3F59C0CC25BA7199002462B5 /* ViewController.swift in Sources */,
+				3F59C0CC25BA7199002462B5 /* MasterViewController.swift in Sources */,
 				3F59C0C825BA7199002462B5 /* AppDelegate.swift in Sources */,
 				3F59C0CA25BA7199002462B5 /* SceneDelegate.swift in Sources */,
 				3F1725B625BF8E5900361415 /* DetailViewController.swift in Sources */,

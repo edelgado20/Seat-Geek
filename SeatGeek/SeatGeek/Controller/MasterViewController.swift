@@ -7,10 +7,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MasterViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    let searchController = UISearchController(searchResultsController: nil)
     let networkClient = NetworkClient()
     var events: [Event] = [] {
         didSet {
@@ -18,6 +19,13 @@ class ViewController: UIViewController {
                 print("Event type: \(event.type)")
             }
         }
+    }
+    var filteredEvents: [Event] = []
+    var isSearchBarEmpty: Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    var isFiltering: Bool {
+        return searchController.isActive && !isSearchBarEmpty
     }
 
     override func viewDidLoad() {
@@ -41,9 +49,22 @@ class ViewController: UIViewController {
         
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let detailVC = segue.destination as? DetailViewController,
+              let indexPath = tableView.indexPathForSelectedRow else { return }
+        
+        let event: Event
+        if isFiltering {
+            event = filteredEvents[indexPath.row]
+        } else {
+            event = events[indexPath.row]
+        }
+        detailVC.event = event
+    }
+    
     func setupSearchController() {
-        let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search events"
         searchController.searchBar.tintColor = .white // cancel button text color
         searchController.searchBar.barStyle = .black // text field text color
@@ -72,19 +93,29 @@ class ViewController: UIViewController {
 
 }
 
-extension ViewController: UITableViewDataSource, UITableViewDelegate {
+extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("->Events Count: \(events.count)")
+        if isFiltering {
+            return filteredEvents.count
+        }
+        
         return events.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath) as? EventTableViewCell else { fatalError("Unable to declare tableView cell")}
         
+        let event: Event
+        if isFiltering {
+            event = filteredEvents[indexPath.row]
+        } else {
+            event = events[indexPath.row]
+        }
+        
         cell.heartImgView.isHidden = true
-        cell.nameLabel.text = events[indexPath.row].title
-        cell.locationLabel.text = events[indexPath.row].venue.displayLocation
-        cell.dateLabel.text = utcToLocal(dateString: events[indexPath.row].datetimeUTC)
+        cell.nameLabel.text = event.title
+        cell.locationLabel.text = event.venue.displayLocation
+        cell.dateLabel.text = utcToLocal(dateString: event.datetimeUTC)
         
         return cell
     }
@@ -94,9 +125,14 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension ViewController: UISearchResultsUpdating {
+extension MasterViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
-        print(text)
+        guard let searchText = searchController.searchBar.text else { return }
+        
+        filteredEvents = events.filter({ (event) -> Bool in
+            return event.title.lowercased().contains(searchText.lowercased())
+        })
+        
+        tableView.reloadData()
     }
 }
