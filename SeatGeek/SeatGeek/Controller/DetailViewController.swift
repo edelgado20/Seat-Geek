@@ -73,17 +73,31 @@ class DetailViewController: UIViewController {
     }
     
     func setupLabels() {
-        dateLabel.text = event?.datetimeUTC
-        locationLabel.text = event?.venue.displayLocation
+        if let date = event?.datetimeUTC, let location = event?.venue.displayLocation {
+            dateLabel.text = utcToLocal(dateString: date)
+            locationLabel.text = location
+        }
+    }
+    
+    // TODO: Move this function to the View Model Struct
+    func utcToLocal(dateString: String) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+
+        if let date = dateFormatter.date(from: dateString) {
+            dateFormatter.timeZone = .current
+            dateFormatter.dateFormat = "EEEE, dd MMM yyyy hh:mm a"
+            return dateFormatter.string(from: date)
+        }
+        return nil
     }
     
     @objc func backBtnTapped() {
-        print("back btn tapped")
         navigationController?.popViewController(animated: true)
     }
     
     @objc func heartBtnTapped() {
-        print("tapped")
         heartButton.setImage(#imageLiteral(resourceName: "whiteHeart").withRenderingMode(.alwaysOriginal), for: .normal)
     }
 }

@@ -77,17 +77,12 @@ class MasterViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
-        
+
         if let date = dateFormatter.date(from: dateString) {
             dateFormatter.timeZone = .current
             dateFormatter.dateFormat = "E, dd MMM yyyy\nhh:mm a"
-            
-            print("-> \(dateFormatter.string(from: date))")
             return dateFormatter.string(from: date)
-        } else {
-            print("else")
         }
-   
         return nil
     }
 
@@ -115,6 +110,7 @@ extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
         cell.heartImgView.isHidden = true
         cell.nameLabel.text = event.title
         cell.locationLabel.text = event.venue.displayLocation
+        // TODO: implement utcToLocal on the ViewModel class and delete the static func
         cell.dateLabel.text = utcToLocal(dateString: event.datetimeUTC)
         
         return cell
