@@ -10,9 +10,11 @@ import UIKit
 class MasterViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableViewTopConstraint: NSLayoutConstraint!
     
     let searchController = UISearchController(searchResultsController: nil)
     let networkClient = NetworkClient()
+    let navItem = UINavigationItem()
     var events: [Event] = [] {
         didSet {
             for event in events {
@@ -30,8 +32,7 @@ class MasterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //navigationController?.navigationBar.prefersLargeTitles = true
-        
+        addNavigationBar()
         setupSearchController()
         networkClient.fetchEvents{ (eventsSummary) in
             self.events = eventsSummary.events
@@ -62,6 +63,20 @@ class MasterViewController: UIViewController {
         detailVC.event = event
     }
     
+    func addNavigationBar() {
+        let height: CGFloat = 100
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        tableViewTopConstraint.constant = height
+
+        let navbar = UINavigationBar(frame: CGRect(x: 0, y: statusBarHeight, width: UIScreen.main.bounds.width, height: height))
+        navbar.delegate = self as? UINavigationBarDelegate
+        navbar.items = [navItem]
+        
+        view.addSubview(navbar)
+        
+        self.view.frame = CGRect(x: 0, y: height, width: UIScreen.main.bounds.width, height: (UIScreen.main.bounds.height - height))
+    }
+    
     func setupSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -69,8 +84,7 @@ class MasterViewController: UIViewController {
         searchController.searchBar.tintColor = .white // cancel button text color
         searchController.searchBar.barStyle = .black // text field text color
         searchController.searchBar.searchTextField.leftView?.tintColor = .white // search icon
-
-        navigationItem.searchController = searchController
+        navItem.searchController = searchController
     }
     
     func utcToLocal(dateString: String) -> String? {
