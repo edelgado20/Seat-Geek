@@ -15,14 +15,14 @@ class EventTableViewCell: UITableViewCell {
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
-//    var eventViewModel: EventViewModel! {
-//        didSet {
-//            heartImgView.isHidden = !eventViewModel.isFavorite
-//            nameLabel.text = eventViewModel.name
-//            locationLabel.text = eventViewModel.location
-//            dateLabel.text = eventViewModel.date
-//        }
-//    }
+    var eventViewModel: EventViewModel! {
+        didSet {
+            heartImgView.isHidden = !eventViewModel.isFavorite
+            nameLabel.text = eventViewModel.name
+            locationLabel.text = eventViewModel.location
+            dateLabel.text = eventViewModel.utcToLocal(convert: eventViewModel.date, to: "EEEE, dd MMM yyyy\nhh:mm a")
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

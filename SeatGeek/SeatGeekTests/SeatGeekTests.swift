@@ -17,17 +17,21 @@ class SeatGeekTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    
+    func testEventViewModel() {
+        let event = Event(name: "Los Angeles Dodgers vs New York Yankees", location: "Los Angeles, CA", date: "2021-02-03T00:00:00")
+        let eventViewModel = EventViewModel(event: event)
+        
+        XCTAssertEqual(event.title, eventViewModel.name)
+        XCTAssertEqual(event.venue.displayLocation, eventViewModel.location)
+        XCTAssertEqual(event.datetimeUTC, eventViewModel.date)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testDateFormat() {
+        let event = Event(name: "Los Angeles Dodgers vs New York Yankees", location: "Los Angeles, CA", date: "2021-02-03T00:00:00")
+        let eventViewModel = EventViewModel(event: event)
+        let date = eventViewModel.utcToLocal(convert: event.datetimeUTC, to: "EEEE, dd MMM yyyy hh:mm a")
+        
+        XCTAssertEqual(date, "Tuesday, 02 Feb 2021 04:00 PM")
     }
-
 }

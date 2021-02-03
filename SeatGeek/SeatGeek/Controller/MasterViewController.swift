@@ -99,13 +99,7 @@ extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
         } else {
             eventViewModel = eventViewModels[indexPath.row]
         }
-        //cell.eventViewModel = eventViewModel
-        
-        cell.heartImgView.isHidden = !eventViewModel.isFavorite
-        cell.nameLabel.text = eventViewModel.name
-        cell.locationLabel.text = eventViewModel.location
-        let dateString: String = eventViewModel.date
-        cell.dateLabel.text = eventViewModel.utcToLocal(convert: dateString, to: "EEEE, dd MMM yyyy\nhh:mm a")
+        cell.eventViewModel = eventViewModel
         
         return cell
     }
