@@ -18,7 +18,7 @@ class DetailViewController: UIViewController {
     let backButton = UIButton(type: .custom)
     var heartButton = UIButton(type: .custom)
     
-    var event: Event? = nil
+    var eventViewModel: EventViewModel? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +66,7 @@ class DetailViewController: UIViewController {
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.textAlignment = .center
         titleLabel.textColor = .black
-        titleLabel.text = event?.title
+        titleLabel.text = eventViewModel?.name
         navItem.titleView = titleLabel
     }
     
@@ -82,24 +82,10 @@ class DetailViewController: UIViewController {
     }
     
     func setupLabels() {
-        if let date = event?.datetimeUTC, let location = event?.venue.displayLocation {
-            dateLabel.text = utcToLocal(dateString: date)
+        if let date = eventViewModel?.date, let location = eventViewModel?.location {
+            dateLabel.text = eventViewModel?.utcToLocal(convert: date, to: "EEEE, dd MMM yyyy hh:mm a")
             locationLabel.text = location
         }
-    }
-    
-    // TODO: Move this function to the View Model Struct
-    func utcToLocal(dateString: String) -> String? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
-
-        if let date = dateFormatter.date(from: dateString) {
-            dateFormatter.timeZone = .current
-            dateFormatter.dateFormat = "EEEE, dd MMM yyyy hh:mm a"
-            return dateFormatter.string(from: date)
-        }
-        return nil
     }
     
     @objc func backBtnTapped() {

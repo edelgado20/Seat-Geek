@@ -15,6 +15,15 @@ class EventTableViewCell: UITableViewCell {
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
+//    var eventViewModel: EventViewModel! {
+//        didSet {
+//            heartImgView.isHidden = !eventViewModel.isFavorite
+//            nameLabel.text = eventViewModel.name
+//            locationLabel.text = eventViewModel.location
+//            dateLabel.text = eventViewModel.date
+//        }
+//    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

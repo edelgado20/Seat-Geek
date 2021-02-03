@@ -15,14 +15,8 @@ class MasterViewController: UIViewController {
     let searchController = UISearchController(searchResultsController: nil)
     let networkClient = NetworkClient()
     let navItem = UINavigationItem()
-    var events: [Event] = [] {
-        didSet {
-            for event in events {
-                print("Event type: \(event.type)")
-            }
-        }
-    }
-    var filteredEvents: [Event] = []
+    var eventViewModels: [EventViewModel] = []
+    var filteredEventViewModels: [EventViewModel] = []
     var isSearchBarEmpty: Bool {
         return searchController.searchBar.text?.isEmpty ?? true
     }
@@ -34,8 +28,9 @@ class MasterViewController: UIViewController {
         super.viewDidLoad()
         addNavigationBar()
         setupSearchController()
-        networkClient.fetchEvents{ (eventsSummary) in
-            self.events = eventsSummary.events
+        networkClient.fetchEvents{ (eventsSumarry) in
+            self.eventViewModels = eventsSumarry.events.map({ return EventViewModel(event: $0)})
+            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -47,20 +42,19 @@ class MasterViewController: UIViewController {
         if let index = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRow(at: index, animated: true)
         }
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let detailVC = segue.destination as? DetailViewController,
               let indexPath = tableView.indexPathForSelectedRow else { return }
         
-        let event: Event
+        let eventViewModel: EventViewModel
         if isFiltering {
-            event = filteredEvents[indexPath.row]
+            eventViewModel = filteredEventViewModels[indexPath.row]
         } else {
-            event = events[indexPath.row]
+            eventViewModel = eventViewModels[indexPath.row]
         }
-        detailVC.event = event
+        detailVC.eventViewModel = eventViewModel
     }
     
     func addNavigationBar() {
@@ -86,46 +80,32 @@ class MasterViewController: UIViewController {
         searchController.searchBar.searchTextField.leftView?.tintColor = .white // search icon
         navItem.searchController = searchController
     }
-    
-    func utcToLocal(dateString: String) -> String? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
-
-        if let date = dateFormatter.date(from: dateString) {
-            dateFormatter.timeZone = .current
-            dateFormatter.dateFormat = "E, dd MMM yyyy\nhh:mm a"
-            return dateFormatter.string(from: date)
-        }
-        return nil
-    }
-
 }
 
 extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering {
-            return filteredEvents.count
+            return filteredEventViewModels.count
         }
-        
-        return events.count
+        return eventViewModels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath) as? EventTableViewCell else { fatalError("Unable to declare tableView cell")}
         
-        let event: Event
+        let eventViewModel: EventViewModel
         if isFiltering {
-            event = filteredEvents[indexPath.row]
+            eventViewModel = filteredEventViewModels[indexPath.row]
         } else {
-            event = events[indexPath.row]
+            eventViewModel = eventViewModels[indexPath.row]
         }
+        //cell.eventViewModel = eventViewModel
         
-        cell.heartImgView.isHidden = true
-        cell.nameLabel.text = event.title
-        cell.locationLabel.text = event.venue.displayLocation
-        // TODO: implement utcToLocal on the ViewModel class and delete the static func
-        cell.dateLabel.text = utcToLocal(dateString: event.datetimeUTC)
+        cell.heartImgView.isHidden = !eventViewModel.isFavorite
+        cell.nameLabel.text = eventViewModel.name
+        cell.locationLabel.text = eventViewModel.location
+        let dateString: String = eventViewModel.date
+        cell.dateLabel.text = eventViewModel.utcToLocal(convert: dateString, to: "EEEE, dd MMM yyyy\nhh:mm a")
         
         return cell
     }
@@ -139,8 +119,8 @@ extension MasterViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
         
-        filteredEvents = events.filter({ (event) -> Bool in
-            return event.title.lowercased().contains(searchText.lowercased())
+        filteredEventViewModels = eventViewModels.filter({ (event) -> Bool in
+            return event.name.contains(searchText.lowercased())
         })
         
         tableView.reloadData()

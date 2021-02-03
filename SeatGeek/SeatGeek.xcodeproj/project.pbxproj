@@ -19,6 +19,7 @@
 		3F59C0EA25BA719D002462B5 /* SeatGeekUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59C0E925BA719D002462B5 /* SeatGeekUITests.swift */; };
 		3F59C0FC25BA80D0002462B5 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59C0FB25BA80D0002462B5 /* Events.swift */; };
 		3F59C10B25BBDF8F002462B5 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59C10A25BBDF8F002462B5 /* NetworkClient.swift */; };
+		3F69B2C025CA1E9A00465D23 /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F69B2BF25CA1E9A00465D23 /* EventViewModel.swift */; };
 		3FF98DDD25C7A3D6005601BD /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF98DDC25C7A3D6005601BD /* Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +59,7 @@
 		3F59C0EB25BA719D002462B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3F59C0FB25BA80D0002462B5 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		3F59C10A25BBDF8F002462B5 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		3F69B2BF25CA1E9A00465D23 /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
 		3FF98DDC25C7A3D6005601BD /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,6 +91,7 @@
 		3F2326EB25BE5A6300A71184 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				3F69B2BF25CA1E9A00465D23 /* EventViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F1725AB25BE94DD00361415 /* EventTableViewCell.swift in Sources */,
+				3F69B2C025CA1E9A00465D23 /* EventViewModel.swift in Sources */,
 				3F59C0FC25BA80D0002462B5 /* Events.swift in Sources */,
 				3F59C10B25BBDF8F002462B5 /* NetworkClient.swift in Sources */,
 				3F59C0CC25BA7199002462B5 /* MasterViewController.swift in Sources */,
