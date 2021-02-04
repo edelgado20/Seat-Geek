@@ -28,8 +28,20 @@ class MasterViewController: UIViewController {
         super.viewDidLoad()
         addNavigationBar()
         setupSearchController()
+        // TODO: The fetching events call should not be in the ViewContrller instead in the NetworkClient struct
         networkClient.fetchEvents{ (eventsSumarry) in
             self.eventViewModels = eventsSumarry.events.map({ return EventViewModel(event: $0)})
+            
+//            for (index, element) in self.eventViewModels.enumerated() {
+//                let idString = String(element.id)
+//                if let event = UserDefaults.standard.object(forKey: idString) as? EventViewModel {
+//                    print("->Get Event: \(event)")
+//                    self.eventViewModels[index] = event
+//                } else {
+//                    print("->Set ID: \(idString)")
+//                    UserDefaults.standard.set(element, forKey: idString)
+//                }
+//            }
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -42,6 +54,17 @@ class MasterViewController: UIViewController {
         if let index = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRow(at: index, animated: true)
         }
+        
+//        for (index, element) in self.eventViewModels.enumerated() {
+//            let idString = String(element.id)
+//            if let event = UserDefaults.standard.object(forKey: idString) as? EventViewModel {
+//                print("->Get Event: \(event)")
+//                self.eventViewModels[index] = event
+//            } else {
+//                print("->Set ID: \(idString)")
+//                UserDefaults.standard.set(element, forKey: idString)
+//            }
+//        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

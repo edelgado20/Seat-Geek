@@ -9,6 +9,7 @@ import Foundation
 
 struct EventViewModel {
     
+    let id: Int
     let name: String
     let location: String
     let date: String
@@ -16,6 +17,7 @@ struct EventViewModel {
     
     // Dependency Injection (DI)
     init(event: Event) {
+        self.id = event.id
         self.name = event.title
         self.location = event.venue.displayLocation
         self.date = event.datetimeUTC

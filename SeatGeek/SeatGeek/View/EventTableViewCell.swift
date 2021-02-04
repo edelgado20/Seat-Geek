@@ -17,7 +17,11 @@ class EventTableViewCell: UITableViewCell {
     
     var eventViewModel: EventViewModel! {
         didSet {
-            heartImgView.isHidden = !eventViewModel.isFavorite
+            if eventViewModel.isFavorite {
+                heartImgView.isHidden = false
+            } else {
+                heartImgView.isHidden = true
+            }
             nameLabel.text = eventViewModel.name
             locationLabel.text = eventViewModel.location
             dateLabel.text = eventViewModel.utcToLocal(convert: eventViewModel.date, to: "EEEE, dd MMM yyyy\nhh:mm a")

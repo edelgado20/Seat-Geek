@@ -27,6 +27,13 @@ class DetailViewController: UIViewController {
         setupLabels()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+//        guard let eventViewModel = eventViewModel else { return }
+//        let idString = String(eventViewModel.id)
+//        UserDefaults.standard.set(eventViewModel, forKey: idString)
+    }
+    
     func setupNavBar() {
         let height: CGFloat = 44
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
@@ -71,7 +78,12 @@ class DetailViewController: UIViewController {
     }
     
     func setupRightBarButton() {
-        heartButton.setImage(#imageLiteral(resourceName: "heart").withRenderingMode(.alwaysOriginal), for: .normal)
+        guard let eventViewModel = eventViewModel else { return }
+        if eventViewModel.isFavorite {
+            heartButton.setImage(#imageLiteral(resourceName: "heart").withRenderingMode(.alwaysOriginal), for: .normal)
+        } else {
+            heartButton.setImage(#imageLiteral(resourceName: "whiteHeart").withRenderingMode(.alwaysOriginal), for: .normal)
+        }
         heartButton.addTarget(self, action: #selector(heartBtnTapped), for: .touchUpInside)
         
         let heartBarButtonItem = UIBarButtonItem(customView: heartButton)
@@ -93,6 +105,15 @@ class DetailViewController: UIViewController {
     }
     
     @objc func heartBtnTapped() {
-        heartButton.setImage(#imageLiteral(resourceName: "whiteHeart").withRenderingMode(.alwaysOriginal), for: .normal)
+        print("->heartBtnTapped")
+        if eventViewModel?.isFavorite == true {
+            print("->Switching to non favorite")
+            eventViewModel?.isFavorite = false
+            heartButton.setImage(#imageLiteral(resourceName: "whiteHeart").withRenderingMode(.alwaysOriginal), for: .normal)
+        } else {
+            print("->Switching to favorite")
+            eventViewModel?.isFavorite = true
+            heartButton.setImage(#imageLiteral(resourceName: "heart").withRenderingMode(.alwaysOriginal), for: .normal)
+        }
     }
 }
