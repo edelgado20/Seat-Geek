@@ -28,21 +28,34 @@ class MasterViewController: UIViewController {
         super.viewDidLoad()
         addNavigationBar()
         setupSearchController()
-        // TODO: The fetching events call should not be in the ViewContrller instead in the NetworkClient struct
+        
+        print("viewDidLoad() MasterVC")
+        // TODO: The fetching events call should not be in the ViewController instead in the NetworkClient struct
         networkClient.fetchEvents{ (eventsSumarry) in
             self.eventViewModels = eventsSumarry.events.map({ return EventViewModel(event: $0)})
             
-//            for (index, element) in self.eventViewModels.enumerated() {
-//                let idString = String(element.id)
-//                if let event = UserDefaults.standard.object(forKey: idString) as? EventViewModel {
-//                    print("->Get Event: \(event)")
-//                    self.eventViewModels[index] = event
-//                } else {
-//                    print("->Set ID: \(idString)")
-//                    UserDefaults.standard.set(element, forKey: idString)
-//                }
-//            }
-            
+            for (index, element) in self.eventViewModels.enumerated() {
+                let idString = String(element.id)
+                let userDefaults = UserDefaults.standard
+                
+                do {
+                    let eventViewModel = try userDefaults.getObject(forKey: idString, castTo: EventViewModel.self)
+                    print("->Retreive event: \(eventViewModel)")
+                    self.eventViewModels[index] = eventViewModel
+                } catch {
+                    print(error.localizedDescription)
+                    if error.localizedDescription == ObjectSavableError.noValue.rawValue {
+                        print("->Setting event")
+                        do {
+                            try userDefaults.setObject(element, forKey: idString)
+                            print("->Set ID: \(idString)")
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                }
+            }
+
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -55,16 +68,29 @@ class MasterViewController: UIViewController {
             self.tableView.deselectRow(at: index, animated: true)
         }
         
-//        for (index, element) in self.eventViewModels.enumerated() {
-//            let idString = String(element.id)
-//            if let event = UserDefaults.standard.object(forKey: idString) as? EventViewModel {
-//                print("->Get Event: \(event)")
-//                self.eventViewModels[index] = event
-//            } else {
-//                print("->Set ID: \(idString)")
-//                UserDefaults.standard.set(element, forKey: idString)
-//            }
-//        }
+        print("->ViewWillAppear() MasterVC")
+        for (index, element) in self.eventViewModels.enumerated() {
+            let idString = String(element.id)
+            let userDefaults = UserDefaults.standard
+            
+            do {
+                let eventViewModel = try userDefaults.getObject(forKey: idString, castTo: EventViewModel.self)
+                print("->Retreive event: \(eventViewModel)")
+                self.eventViewModels[index] = eventViewModel
+            } catch {
+                print(error.localizedDescription)
+                if error.localizedDescription == ObjectSavableError.noValue.rawValue {
+                    print("->Setting event")
+                    do {
+                        try userDefaults.setObject(element, forKey: idString)
+                        print("->Set ID: \(idString)")
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+        }
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

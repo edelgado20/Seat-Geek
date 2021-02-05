@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EventViewModel {
+struct EventViewModel: Codable {
     
     let id: Int
     let name: String

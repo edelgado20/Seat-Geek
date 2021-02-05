@@ -29,9 +29,15 @@ class DetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-//        guard let eventViewModel = eventViewModel else { return }
-//        let idString = String(eventViewModel.id)
-//        UserDefaults.standard.set(eventViewModel, forKey: idString)
+        guard let eventViewModel = eventViewModel else { return }
+        let idString = String(eventViewModel.id)
+        print("viewWillDisappear() DetailVC")
+        do {
+            try UserDefaults.standard.setObject(eventViewModel, forKey: idString)
+            print("->Set ID: \(idString)")
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     func setupNavBar() {
