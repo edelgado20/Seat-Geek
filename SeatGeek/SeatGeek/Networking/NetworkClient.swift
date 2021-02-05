@@ -11,6 +11,35 @@ struct NetworkClient {
     
     let eventsURL = "https://api.seatgeek.com/2/events?client_id=MjE1MTE5MDl8MTYxMTI4MTg5OC42MDgwMQ"
     
+    func getEvents(completionHandler: @escaping ([EventViewModel]) -> Void) {
+        fetchEvents { (eventsSummary) in
+            var eventViewModels = eventsSummary.events.map({ return EventViewModel(event: $0)})
+            
+            for (index, element) in eventViewModels.enumerated() {
+                let idString = String(element.id)
+                let userDefaults = UserDefaults.standard
+                
+                do {
+                    let eventViewModel = try userDefaults.getObject(forKey: idString, castTo: EventViewModel.self)
+                    print("->Retreive event: \(eventViewModel)")
+                    eventViewModels[index] = eventViewModel
+                } catch {
+                    print(error.localizedDescription)
+                    if error.localizedDescription == ObjectSavableError.noValue.rawValue {
+                        print("->Setting event")
+                        do {
+                            try userDefaults.setObject(element, forKey: idString)
+                            print("->Set ID: \(idString)")
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                }
+            }
+            completionHandler(eventViewModels)
+        }
+    }
+    
     func fetchEvents(completionHandler: @escaping (Events) -> Void) {
         guard let url = URL(string: eventsURL) else { fatalError("Incorrect URL")}
     
