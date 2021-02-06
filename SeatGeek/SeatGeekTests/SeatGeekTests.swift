@@ -19,16 +19,21 @@ class SeatGeekTests: XCTestCase {
     }
     
     func testEventViewModel() {
-        let event = Event(name: "Los Angeles Dodgers vs New York Yankees", location: "Los Angeles, CA", date: "2021-02-03T00:00:00")
+        let event = Event(name: "Los Angeles Dodgers vs New York Yankees",
+                          location: "Los Angeles, CA", date: "2021-02-03T00:00:00",
+                          performers: [Performer(image: "https://seatgeek.com/images/performers-landscape/woga-classic-liukin-international-competitions-11829e/792937/huge.jpg")])
         let eventViewModel = EventViewModel(event: event)
         
         XCTAssertEqual(event.title, eventViewModel.name)
         XCTAssertEqual(event.venue.displayLocation, eventViewModel.location)
         XCTAssertEqual(event.datetimeUTC, eventViewModel.date)
+        XCTAssertEqual(event.performers[0].image, eventViewModel.imageUrl)
     }
     
     func testDateFormat() {
-        let event = Event(name: "Los Angeles Dodgers vs New York Yankees", location: "Los Angeles, CA", date: "2021-02-03T00:00:00")
+        let event = Event(name: "Los Angeles Dodgers vs New York Yankees",
+                          location: "Los Angeles, CA", date: "2021-02-03T00:00:00",
+                          performers: [Performer(image: "https://seatgeek.com/images/performers-landscape/woga-classic-liukin-international-competitions-11829e/792937/huge.jpg")])
         let eventViewModel = EventViewModel(event: event)
         let date = eventViewModel.utcToLocal(convert: event.datetimeUTC, to: "EEEE, dd MMM yyyy hh:mm a")
         

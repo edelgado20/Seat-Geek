@@ -238,6 +238,7 @@
 				3F59C0C025BA7199002462B5 /* Sources */,
 				3F59C0C125BA7199002462B5 /* Frameworks */,
 				3F59C0C225BA7199002462B5 /* Resources */,
+				9CE7EDE6F1D6A76E7DC4031C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -275,6 +276,7 @@
 				3F59C0E125BA719D002462B5 /* Sources */,
 				3F59C0E225BA719D002462B5 /* Frameworks */,
 				3F59C0E325BA719D002462B5 /* Resources */,
+				34A8824FAFD4EBA927714A91 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -356,6 +358,40 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		34A8824FAFD4EBA927714A91 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeatGeek-SeatGeekUITests/Pods-SeatGeek-SeatGeekUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeatGeek-SeatGeekUITests/Pods-SeatGeek-SeatGeekUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeatGeek-SeatGeekUITests/Pods-SeatGeek-SeatGeekUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9CE7EDE6F1D6A76E7DC4031C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeatGeek/Pods-SeatGeek-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeatGeek/Pods-SeatGeek-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeatGeek/Pods-SeatGeek-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		BFB56BBDE77AC8DFA28A5D95 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

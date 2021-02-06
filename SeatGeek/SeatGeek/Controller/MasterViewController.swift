@@ -10,11 +10,10 @@ import UIKit
 class MasterViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var tableViewTopConstraint: NSLayoutConstraint!
     
+    let navItem = UINavigationItem()
     let searchController = UISearchController(searchResultsController: nil)
     let networkClient = NetworkClient()
-    let navItem = UINavigationItem()
     var eventViewModels: [EventViewModel] = []
     var filteredEventViewModels: [EventViewModel] = []
     var isSearchBarEmpty: Bool {
@@ -26,12 +25,10 @@ class MasterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        addNavigationBar()
         setupSearchController()
         
         networkClient.getEvents { [self] (eventViewModels) in
             self.eventViewModels = eventViewModels
-            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -59,20 +56,6 @@ class MasterViewController: UIViewController {
         detailVC.eventViewModel = eventViewModel
     }
     
-    func addNavigationBar() {
-        let height: CGFloat = 100
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        tableViewTopConstraint.constant = height
-
-        let navbar = UINavigationBar(frame: CGRect(x: 0, y: statusBarHeight, width: UIScreen.main.bounds.width, height: height))
-        navbar.delegate = self as? UINavigationBarDelegate
-        navbar.items = [navItem]
-        
-        view.addSubview(navbar)
-        
-        self.view.frame = CGRect(x: 0, y: height, width: UIScreen.main.bounds.width, height: (UIScreen.main.bounds.height - height))
-    }
-    
     func setupSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -80,29 +63,26 @@ class MasterViewController: UIViewController {
         searchController.searchBar.tintColor = .white // cancel button text color
         searchController.searchBar.barStyle = .black // text field text color
         searchController.searchBar.searchTextField.leftView?.tintColor = .white // search icon
-        navItem.searchController = searchController
+        navigationItem.searchController = searchController
     }
     
     func getObjectsFromUserDefaults() {
-        print("->ViewWillAppear() MasterVC")
         for (index, element) in self.eventViewModels.enumerated() {
             let idString = String(element.id)
             let userDefaults = UserDefaults.standard
             
             do {
                 let eventViewModel = try userDefaults.getObject(forKey: idString, castTo: EventViewModel.self)
-                print("->Retreive event: \(eventViewModel)")
                 self.eventViewModels[index] = eventViewModel
             } catch {
-                print(error.localizedDescription)
                 if error.localizedDescription == ObjectSavableError.noValue.rawValue {
-                    print("->Setting event")
                     do {
                         try userDefaults.setObject(element, forKey: idString)
-                        print("->Set ID: \(idString)")
                     } catch {
                         print(error.localizedDescription)
                     }
+                } else {
+                    print(error.localizedDescription)
                 }
             }
         }
@@ -142,7 +122,7 @@ extension MasterViewController: UISearchResultsUpdating {
         guard let searchText = searchController.searchBar.text else { return }
         
         filteredEventViewModels = eventViewModels.filter({ (event) -> Bool in
-            return event.name.contains(searchText.lowercased())
+            return event.name.lowercased().contains(searchText.lowercased())
         })
         
         tableView.reloadData()

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class EventTableViewCell: UITableViewCell {
     
@@ -21,6 +22,9 @@ class EventTableViewCell: UITableViewCell {
                 heartImgView.isHidden = false
             } else {
                 heartImgView.isHidden = true
+            }
+            if let url = URL(string: eventViewModel.imageUrl) {
+                eventImageView.sd_setImage(with: url, completed: nil)
             }
             nameLabel.text = eventViewModel.name
             locationLabel.text = eventViewModel.location

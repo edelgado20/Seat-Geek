@@ -21,15 +21,12 @@ struct NetworkClient {
                 
                 do {
                     let eventViewModel = try userDefaults.getObject(forKey: idString, castTo: EventViewModel.self)
-                    print("->Retreive event: \(eventViewModel)")
                     eventViewModels[index] = eventViewModel
                 } catch {
                     print(error.localizedDescription)
                     if error.localizedDescription == ObjectSavableError.noValue.rawValue {
-                        print("->Setting event")
                         do {
                             try userDefaults.setObject(element, forKey: idString)
-                            print("->Set ID: \(idString)")
                         } catch {
                             print(error.localizedDescription)
                         }
@@ -48,8 +45,9 @@ struct NetworkClient {
                 print("Error fetching the events: \(error)")
             }
             
-            if let httpRespose = response as? HTTPURLResponse, (200...299).contains(httpRespose.statusCode) {
-                print("Error with the response, unexpected status code: \(httpRespose.statusCode)")
+            guard let httpRespose = response as? HTTPURLResponse, (200...299).contains(httpRespose.statusCode) else {
+                print("Error with the response, unexpected status code: \(response.debugDescription)")
+                return
             }
             
             if let data = data, let eventsSummary = try? JSONDecoder().decode(Events.self, from: data) {

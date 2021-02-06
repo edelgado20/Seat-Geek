@@ -26,7 +26,7 @@ struct Event: Codable {
     let datetimeUTC: String
     let venue: Venue
     let datetimeTbd: Bool
-    let performers: [Performer]
+    var performers: [Performer]
     let isOpen: Bool
     let links: [String?]
     let datetimeLocal: String
@@ -50,7 +50,7 @@ struct Event: Codable {
     let enddatetimeUTC: String?
     let themes, domainInformation: [String?]
     
-    init(name: String, location: String, date: String) {
+    init(name: String, location: String, date: String, performers: [Performer]) {
         title = name
         datetimeUTC = date
         venue = Venue(location: location)
@@ -58,7 +58,7 @@ struct Event: Codable {
         type = ""
         id = 0
         dateTbd = false
-        performers = []
+        self.performers = performers
         isOpen = false
         links = []
         datetimeLocal = ""
@@ -134,11 +134,11 @@ struct Performer: Codable {
     let type, name: String
     let image: String
     let id: Int
-    let images: Images
+    let images: Images?
     let divisions: [Division]?
     let hasUpcomingEvents: Bool
     let primary: Bool?
-    let stats: PerformerStats
+    let stats: PerformerStats?
     let taxonomies: [Taxonomy]
     let imageAttribution: String?
     let url: String
@@ -152,6 +152,32 @@ struct Performer: Codable {
     let popularity: Int
     let location: Location?
     let homeTeam, awayTeam: Bool?
+    
+    init(image: String) {
+        self.image = image
+        type = ""
+        name = ""
+        id = 0
+        images = nil
+        divisions = []
+        hasUpcomingEvents = false
+        primary = nil
+        stats = nil
+        taxonomies = []
+        imageAttribution = nil
+        url = ""
+        score = 0.0
+        slug = ""
+        homeVenueID = 0
+        shortName = ""
+        numUpcomingEvents = 0
+        colors = nil
+        imageLicense = nil
+        popularity = 0
+        location = nil
+        homeTeam = nil
+        awayTeam = nil
+    }
 
     enum CodingKeys: String, CodingKey {
         case type, name, image, id, images, divisions

@@ -31,10 +31,9 @@ class DetailViewController: UIViewController {
         super.viewWillDisappear(true)
         guard let eventViewModel = eventViewModel else { return }
         let idString = String(eventViewModel.id)
-        print("viewWillDisappear() DetailVC")
+        
         do {
             try UserDefaults.standard.setObject(eventViewModel, forKey: idString)
-            print("->Set ID: \(idString)")
         } catch {
             print(error.localizedDescription)
         }
@@ -44,14 +43,14 @@ class DetailViewController: UIViewController {
         let height: CGFloat = 44
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
         viewTopConstraint.constant = height
-        
+
         let navigationBar = UINavigationBar(frame: CGRect(x: 0, y: statusBarHeight, width: UIScreen.main.bounds.width, height: height))
         navigationBar.delegate = self as? UINavigationBarDelegate
         navigationBar.barTintColor = .white
         navigationBar.items = [navItem]
-        
+
         view.addSubview(navigationBar)
-        
+
         self.view.frame = CGRect(x: 0, y: height, width: UIScreen.main.bounds.width, height: (UIScreen.main.bounds.height-height))
     }
     
@@ -100,7 +99,10 @@ class DetailViewController: UIViewController {
     }
     
     func setupLabels() {
-        if let date = eventViewModel?.date, let location = eventViewModel?.location {
+        if let date = eventViewModel?.date, let location = eventViewModel?.location, let imageUrl = eventViewModel?.imageUrl {
+            if let url = URL(string: imageUrl) {
+                imgView.sd_setImage(with: url, completed: nil)
+            }
             dateLabel.text = eventViewModel?.utcToLocal(convert: date, to: "EEEE, dd MMM yyyy hh:mm a")
             locationLabel.text = location
         }
@@ -111,13 +113,10 @@ class DetailViewController: UIViewController {
     }
     
     @objc func heartBtnTapped() {
-        print("->heartBtnTapped")
         if eventViewModel?.isFavorite == true {
-            print("->Switching to non favorite")
             eventViewModel?.isFavorite = false
             heartButton.setImage(#imageLiteral(resourceName: "whiteHeart").withRenderingMode(.alwaysOriginal), for: .normal)
         } else {
-            print("->Switching to favorite")
             eventViewModel?.isFavorite = true
             heartButton.setImage(#imageLiteral(resourceName: "heart").withRenderingMode(.alwaysOriginal), for: .normal)
         }
