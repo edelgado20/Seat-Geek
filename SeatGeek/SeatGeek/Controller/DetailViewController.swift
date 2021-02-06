@@ -23,15 +23,14 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
-        setupNavigationBarItems()
         setupLabels()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
+        // Updates the UserDefaults with any changes to the viewModel(favorite/unfavorite)
         guard let eventViewModel = eventViewModel else { return }
         let idString = String(eventViewModel.id)
-        
         do {
             try UserDefaults.standard.setObject(eventViewModel, forKey: idString)
         } catch {
@@ -39,6 +38,7 @@ class DetailViewController: UIViewController {
         }
     }
     
+    // Sets up custom navBar with a leftBarButtonItem, titleView, and rightBarButtonItem
     func setupNavBar() {
         let height: CGFloat = 44
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
@@ -48,13 +48,10 @@ class DetailViewController: UIViewController {
         navigationBar.delegate = self as? UINavigationBarDelegate
         navigationBar.barTintColor = .white
         navigationBar.items = [navItem]
-
         view.addSubview(navigationBar)
 
         self.view.frame = CGRect(x: 0, y: height, width: UIScreen.main.bounds.width, height: (UIScreen.main.bounds.height-height))
-    }
-    
-    func setupNavigationBarItems() {
+        
         setupLeftBarButton()
         setupTitleView()
         setupRightBarButton()

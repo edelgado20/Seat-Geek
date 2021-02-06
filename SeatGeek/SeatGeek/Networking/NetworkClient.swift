@@ -11,6 +11,7 @@ struct NetworkClient {
     
     let eventsURL = "https://api.seatgeek.com/2/events?client_id=MjE1MTE5MDl8MTYxMTI4MTg5OC42MDgwMQ"
     
+    // Calls fetchEvents() and saves or retreives objects from UserDefaults
     func getEvents(completionHandler: @escaping ([EventViewModel]) -> Void) {
         fetchEvents { (eventsSummary) in
             var eventViewModels = eventsSummary.events.map({ return EventViewModel(event: $0)})
@@ -22,14 +23,15 @@ struct NetworkClient {
                 do {
                     let eventViewModel = try userDefaults.getObject(forKey: idString, castTo: EventViewModel.self)
                     eventViewModels[index] = eventViewModel
-                } catch {
-                    print(error.localizedDescription)
+                } catch { // If object doesn't exist, it saves it to UserDefaults
                     if error.localizedDescription == ObjectSavableError.noValue.rawValue {
                         do {
                             try userDefaults.setObject(element, forKey: idString)
                         } catch {
                             print(error.localizedDescription)
                         }
+                    } else {
+                        print(error.localizedDescription)
                     }
                 }
             }
@@ -37,6 +39,7 @@ struct NetworkClient {
         }
     }
     
+    // Makes call to SeatGeek API to fetch the events
     func fetchEvents(completionHandler: @escaping (Events) -> Void) {
         guard let url = URL(string: eventsURL) else { fatalError("Incorrect URL")}
     

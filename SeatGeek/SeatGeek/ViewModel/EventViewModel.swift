@@ -26,6 +26,7 @@ struct EventViewModel: Codable {
         self.isFavorite = false
     }
     
+    // Converts UTC time to local time 
     func utcToLocal(convert dateString: String, to dateFormat: String) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"

@@ -11,22 +11,20 @@ class MasterViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    let navItem = UINavigationItem()
     let searchController = UISearchController(searchResultsController: nil)
     let networkClient = NetworkClient()
     var eventViewModels: [EventViewModel] = []
-    var filteredEventViewModels: [EventViewModel] = []
+    var filteredEventViewModels: [EventViewModel] = [] // events that are filtered from the search bar
     var isSearchBarEmpty: Bool {
         return searchController.searchBar.text?.isEmpty ?? true
     }
-    var isFiltering: Bool {
+    var isFiltering: Bool { // Tells us if user has typed on the search bar
         return searchController.isActive && !isSearchBarEmpty
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSearchController()
-        
         networkClient.getEvents { [self] (eventViewModels) in
             self.eventViewModels = eventViewModels
             DispatchQueue.main.async {
@@ -100,7 +98,7 @@ extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath) as? EventTableViewCell else { fatalError("Unable to declare tableView cell")}
-        
+        // Choses the event from the appropriate array
         let eventViewModel: EventViewModel
         if isFiltering {
             eventViewModel = filteredEventViewModels[indexPath.row]
@@ -120,11 +118,10 @@ extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
 extension MasterViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        
+        // Filters the events array that match the search text and returns the values to the filteredEvents array
         filteredEventViewModels = eventViewModels.filter({ (event) -> Bool in
             return event.name.lowercased().contains(searchText.lowercased())
         })
-        
         tableView.reloadData()
     }
 }
