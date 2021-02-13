@@ -13,7 +13,7 @@ struct EventViewModel: Codable {
     let name: String
     let location: String
     let date: String
-    let imageUrl: String
+    let imageUrl: String?
     var isFavorite: Bool
     
     // Dependency Injection (DI)
@@ -22,7 +22,7 @@ struct EventViewModel: Codable {
         self.name = event.title
         self.location = event.venue.displayLocation
         self.date = event.datetimeUTC
-        self.imageUrl = event.performers[0].image
+        self.imageUrl = event.performers.first?.image
         self.isFavorite = false
     }
     

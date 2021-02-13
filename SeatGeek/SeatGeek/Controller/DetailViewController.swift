@@ -18,12 +18,23 @@ class DetailViewController: UIViewController {
     let backButton = UIButton(type: .custom)
     var heartButton = UIButton(type: .custom)
     
-    var eventViewModel: EventViewModel? = nil
+    var eventViewModel: EventViewModel? {
+        didSet {
+            setupTitleView()
+            setupRightBarButton()
+            setupLabels()
+        }
+    }
+    var id: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
-        setupLabels()
+        NetworkClient.shared.fetchEvent(id: id) { [self] (event) in
+            if let event = event.events.first {
+                eventViewModel = EventViewModel(event: event)
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -38,7 +49,7 @@ class DetailViewController: UIViewController {
         }
     }
     
-    // Sets up custom navBar with a leftBarButtonItem, titleView, and rightBarButtonItem
+    // Sets up custom navBar with a leftBarButtonItem
     func setupNavBar() {
         let height: CGFloat = 44
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
@@ -53,8 +64,6 @@ class DetailViewController: UIViewController {
         self.view.frame = CGRect(x: 0, y: height, width: UIScreen.main.bounds.width, height: (UIScreen.main.bounds.height-height))
         
         setupLeftBarButton()
-        setupTitleView()
-        setupRightBarButton()
     }
     
     func setupLeftBarButton() {
@@ -69,30 +78,37 @@ class DetailViewController: UIViewController {
     }
     
     func setupTitleView() {
-        let titleLabel = UILabel()
-        titleLabel.numberOfLines = 0
-        titleLabel.adjustsFontSizeToFitWidth = true
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
-        titleLabel.textAlignment = .center
-        titleLabel.textColor = .black
-        titleLabel.text = eventViewModel?.name
-        navItem.titleView = titleLabel
+        DispatchQueue.main.async { [self] in
+            let titleLabel = UILabel()
+            titleLabel.numberOfLines = 0
+            titleLabel.adjustsFontSizeToFitWidth = true
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
+            titleLabel.textAlignment = .center
+            titleLabel.textColor = .black
+            titleLabel.text = eventViewModel?.name
+            navItem.titleView = titleLabel
+        }
     }
     
     func setupRightBarButton() {
         guard let eventViewModel = eventViewModel else { return }
         if eventViewModel.isFavorite {
-            heartButton.setImage(#imageLiteral(resourceName: "heart").withRenderingMode(.alwaysOriginal), for: .normal)
+            DispatchQueue.main.async { [self] in
+                heartButton.setImage(#imageLiteral(resourceName: "heart").withRenderingMode(.alwaysOriginal), for: .normal)
+            }
         } else {
-            heartButton.setImage(#imageLiteral(resourceName: "whiteHeart").withRenderingMode(.alwaysOriginal), for: .normal)
+            DispatchQueue.main.async { [self] in
+                heartButton.setImage(#imageLiteral(resourceName: "whiteHeart").withRenderingMode(.alwaysOriginal), for: .normal)
+            }
         }
-        heartButton.addTarget(self, action: #selector(heartBtnTapped), for: .touchUpInside)
-        
-        let heartBarButtonItem = UIBarButtonItem(customView: heartButton)
-        heartBarButtonItem.customView?.widthAnchor.constraint(equalToConstant: 24).isActive = true
-        heartBarButtonItem.customView?.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        DispatchQueue.main.async { [self] in
+            heartButton.addTarget(self, action: #selector(heartBtnTapped), for: .touchUpInside)
 
-        navItem.rightBarButtonItem = heartBarButtonItem
+            let heartBarButtonItem = UIBarButtonItem(customView: heartButton)
+            heartBarButtonItem.customView?.widthAnchor.constraint(equalToConstant: 24).isActive = true
+            heartBarButtonItem.customView?.heightAnchor.constraint(equalToConstant: 24).isActive = true
+            navItem.rightBarButtonItem = heartBarButtonItem
+        }
     }
     
     func setupLabels() {
@@ -100,8 +116,10 @@ class DetailViewController: UIViewController {
             if let url = URL(string: imageUrl) {
                 imgView.sd_setImage(with: url, completed: nil)
             }
-            dateLabel.text = eventViewModel?.utcToLocal(convert: date, to: "EEEE, dd MMM yyyy hh:mm a")
-            locationLabel.text = location
+            DispatchQueue.main.async { [self] in
+                dateLabel.text = eventViewModel?.utcToLocal(convert: date, to: "EEEE, dd MMM yyyy hh:mm a")
+                locationLabel.text = location
+            }
         }
     }
     

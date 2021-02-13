@@ -140,7 +140,7 @@
 				3F59C10F25BE4ABF002462B5 /* View */,
 				3F2326EB25BE5A6300A71184 /* ViewModel */,
 				3F59C11025BE4AC8002462B5 /* Controller */,
-				3F59C10925BBDF59002462B5 /* Networking */,
+				3F59C10925BBDF59002462B5 /* Services */,
 				3F59C0C725BA7199002462B5 /* AppDelegate.swift */,
 				3F59C0C925BA7199002462B5 /* SceneDelegate.swift */,
 				3FF98DDC25C7A3D6005601BD /* Extension.swift */,
@@ -178,12 +178,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		3F59C10925BBDF59002462B5 /* Networking */ = {
+		3F59C10925BBDF59002462B5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				3F59C10A25BBDF8F002462B5 /* NetworkClient.swift */,
 			);
-			path = Networking;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		3F59C10F25BE4ABF002462B5 /* View */ = {

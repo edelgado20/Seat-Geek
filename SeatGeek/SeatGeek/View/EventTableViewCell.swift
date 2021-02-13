@@ -23,7 +23,7 @@ class EventTableViewCell: UITableViewCell {
             } else {
                 heartImgView.isHidden = true
             }
-            if let url = URL(string: eventViewModel.imageUrl) {
+            if let url = URL(string: eventViewModel.imageUrl ?? "") {
                 eventImageView.sd_setImage(with: url, completed: nil)
             }
             nameLabel.text = eventViewModel.name

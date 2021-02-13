@@ -12,20 +12,25 @@ class MasterViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     let searchController = UISearchController(searchResultsController: nil)
-    let networkClient = NetworkClient()
     var eventViewModels: [EventViewModel] = []
-    var filteredEventViewModels: [EventViewModel] = [] // events that are filtered from the search bar
+    var searchedEventViewModels: [EventViewModel] = [] { // events that are searched from the search bar
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
     var isSearchBarEmpty: Bool {
         return searchController.searchBar.text?.isEmpty ?? true
     }
-    var isFiltering: Bool { // Tells us if user has typed on the search bar
+    var isSearching: Bool { // Tells us if user has typed on the search bar
         return searchController.isActive && !isSearchBarEmpty
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSearchController()
-        networkClient.getEvents { [self] (eventViewModels) in
+        NetworkClient.shared.getEvents { [self] (eventViewModels) in
             self.eventViewModels = eventViewModels
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -45,13 +50,13 @@ class MasterViewController: UIViewController {
         guard let detailVC = segue.destination as? DetailViewController,
               let indexPath = tableView.indexPathForSelectedRow else { return }
         
-        let eventViewModel: EventViewModel
-        if isFiltering {
-            eventViewModel = filteredEventViewModels[indexPath.row]
+        let id: String
+        if isSearching {
+            id = String(searchedEventViewModels[indexPath.row].id)
         } else {
-            eventViewModel = eventViewModels[indexPath.row]
+            id = String(eventViewModels[indexPath.row].id)
         }
-        detailVC.eventViewModel = eventViewModel
+        detailVC.id = id
     }
     
     func setupSearchController() {
@@ -90,8 +95,8 @@ class MasterViewController: UIViewController {
 
 extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering {
-            return filteredEventViewModels.count
+        if isSearching {
+            return searchedEventViewModels.count
         }
         return eventViewModels.count
     }
@@ -100,8 +105,8 @@ extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath) as? EventTableViewCell else { fatalError("Unable to declare tableView cell")}
         // Choses the event from the appropriate array
         let eventViewModel: EventViewModel
-        if isFiltering {
-            eventViewModel = filteredEventViewModels[indexPath.row]
+        if isSearching {
+            eventViewModel = searchedEventViewModels[indexPath.row]
         } else {
             eventViewModel = eventViewModels[indexPath.row]
         }
@@ -118,10 +123,9 @@ extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
 extension MasterViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        // Filters the events array that match the search text and returns the values to the filteredEvents array
-        filteredEventViewModels = eventViewModels.filter({ (event) -> Bool in
-            return event.name.lowercased().contains(searchText.lowercased())
-        })
-        tableView.reloadData()
+        // Calls the fetchSearchEvents API with the search text and convert the returning events to viewModels. The tableView will get reloaded when the searchedEventViewModels get set.
+        NetworkClient.shared.fetchSearchEvents(searchText: searchText) { [self] (eventsSummary) in
+            searchedEventViewModels = eventsSummary.events.map({ return EventViewModel(event: $0) })
+        }
     }
 }
