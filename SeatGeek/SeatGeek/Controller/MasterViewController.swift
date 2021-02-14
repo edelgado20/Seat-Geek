@@ -46,7 +46,11 @@ class MasterViewController: UIViewController {
         if let index = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRow(at: index, animated: true)
         }
-        getObjectsFromUserDefaults()
+        if isSearching {
+            getObjectsFromUserDefaults(viewModels: &searchedEventViewModels)
+        } else {
+            getObjectsFromUserDefaults(viewModels: &eventViewModels)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -72,14 +76,14 @@ class MasterViewController: UIViewController {
         navigationItem.searchController = searchController
     }
     
-    func getObjectsFromUserDefaults() {
-        for (index, element) in self.eventViewModels.enumerated() {
+    func getObjectsFromUserDefaults(viewModels: inout [EventViewModel]) {
+        for (index, element) in viewModels.enumerated() {
             let idString = String(element.id)
             let userDefaults = UserDefaults.standard
             
             do {
-                let eventViewModel = try userDefaults.getObject(forKey: idString, castTo: EventViewModel.self)
-                self.eventViewModels[index] = eventViewModel
+                let viewModel = try userDefaults.getObject(forKey: idString, castTo: EventViewModel.self)
+                viewModels[index] = viewModel
             } catch {
                 if error.localizedDescription == ObjectSavableError.noValue.rawValue {
                     do {
