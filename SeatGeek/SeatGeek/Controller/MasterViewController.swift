@@ -12,7 +12,13 @@ class MasterViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     let searchController = UISearchController(searchResultsController: nil)
-    var eventViewModels: [EventViewModel] = []
+    var eventViewModels: [EventViewModel] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
     var searchedEventViewModels: [EventViewModel] = [] { // events that are searched from the search bar
         didSet {
             DispatchQueue.main.async {
@@ -30,11 +36,8 @@ class MasterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSearchController()
-        NetworkClient.shared.getEvents { [self] (eventViewModels) in
+        NetworkClient.shared.fetchEvents { [self] (eventViewModels) in
             self.eventViewModels = eventViewModels
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
         }
     }
     
@@ -89,7 +92,6 @@ class MasterViewController: UIViewController {
                 }
             }
         }
-        tableView.reloadData()
     }
 }
 
@@ -123,9 +125,9 @@ extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
 extension MasterViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        // Calls the fetchSearchEvents API with the search text and convert the returning events to viewModels. The tableView will get reloaded when the searchedEventViewModels get set.
-        NetworkClient.shared.fetchSearchEvents(searchText: searchText) { [self] (eventsSummary) in
-            searchedEventViewModels = eventsSummary.events.map({ return EventViewModel(event: $0) })
+        // Calls the fetchSearchEvents API with the search text. The tableView will get reloaded when the searchedEventViewModels gets set.
+        NetworkClient.shared.fetchSearchEvents(searchText: searchText) { [self] (eventViewModels) in
+            searchedEventViewModels = eventViewModels
         }
     }
 }

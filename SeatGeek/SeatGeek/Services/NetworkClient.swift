@@ -15,39 +15,11 @@ class NetworkClient {
     let eventsURL = "https://api.seatgeek.com/2/events?client_id=MjE1MTE5MDl8MTYxMTI4MTg5OC42MDgwMQ"
     let eventsQueryURL = "https://api.seatgeek.com/2/events?q="
     
-    // Calls fetchEvents() and saves or retreives objects from UserDefaults
-    func getEvents(completionHandler: @escaping ([EventViewModel]) -> Void) {
-        fetchEvents { (eventsSummary) in
-            var eventViewModels = eventsSummary.events.map({ return EventViewModel(event: $0)})
-            
-            for (index, element) in eventViewModels.enumerated() {
-                let idString = String(element.id)
-                let userDefaults = UserDefaults.standard
-                
-                do {
-                    let eventViewModel = try userDefaults.getObject(forKey: idString, castTo: EventViewModel.self)
-                    eventViewModels[index] = eventViewModel
-                } catch { // If object doesn't exist, it saves it to UserDefaults
-                    if error.localizedDescription == ObjectSavableError.noValue.rawValue {
-                        do {
-                            try userDefaults.setObject(element, forKey: idString)
-                        } catch {
-                            print(error.localizedDescription)
-                        }
-                    } else {
-                        print(error.localizedDescription)
-                    }
-                }
-            }
-            completionHandler(eventViewModels)
-        }
-    }
-    
     // Makes call to SeatGeek API to fetch the events
-    func fetchEvents(completionHandler: @escaping (Events) -> Void) {
+    func fetchEvents(completionHandler: @escaping ([EventViewModel]) -> Void) {
         guard let url = URL(string: eventsURL) else { fatalError("Incorrect URL")}
     
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: url) { [self] (data, response, error) in
             if let error = error {
                 print("Error fetching the events: \(error)")
             }
@@ -58,17 +30,20 @@ class NetworkClient {
             }
             
             if let data = data, let eventsSummary = try? JSONDecoder().decode(Events.self, from: data) {
-                completionHandler(eventsSummary)
+                // Convert events to eventsViewModels and retrieves or saves objects from UserDefaults
+                var eventViewModels = eventsSummary.events.map({ return EventViewModel(event: $0) })
+                getOrSetObjectsOnUserDefaults(viewModels: &eventViewModels)
+                completionHandler(eventViewModels)
             }
         }
         task.resume()
     }
     
-    // TODO: Save fetched events to UserDefaults
-    func fetchSearchEvents(searchText: String, completionHandler: @escaping (Events) -> Void) {
+    // API call to search for events with custom search text from user
+    func fetchSearchEvents(searchText: String, completionHandler: @escaping ([EventViewModel]) -> Void) {
         guard let url = URL(string: eventsQueryURL+searchText+clientID) else { fatalError("Incorrect URL")}
         
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: url) { [self] (data, response, error) in
             if let error = error {
                 print("Error fetching the query events: \(error)")
             }
@@ -79,17 +54,20 @@ class NetworkClient {
             }
             
             if let data = data, let eventsSummary = try? JSONDecoder().decode(Events.self, from: data) {
-                completionHandler(eventsSummary)
+                // Convert events to eventsViewModels and retrieves or saves objects from UserDefaults
+                var eventViewModels = eventsSummary.events.map({ return EventViewModel(event: $0) })
+                getOrSetObjectsOnUserDefaults(viewModels: &eventViewModels)
+                completionHandler(eventViewModels)
             }
         }
         task.resume()
     }
     
-    // TODO: Dont forget to add it to user defaults
-    func fetchEvent(id: String, completionHandler: @escaping (Events) -> Void) {
+    // API call for a individual event
+    func fetchEvent(id: String, completionHandler: @escaping (EventViewModel) -> Void) {
         guard let url = URL(string: eventURL+id+clientID) else { fatalError("Incorrect URL") }
         
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: url) { [self] (data, response, error) in
             if let error = error {
                 print("Error fetching the event: \(error)")
             }
@@ -99,14 +77,61 @@ class NetworkClient {
                 return
             }
             
-            guard let data = data else {
-                print("Error")
-                return
+            if let data = data, let eventsSummary = try? JSONDecoder().decode(Events.self, from: data) {
+                // Convert to event to eventViewModel and check if object already exist in UserDefaults
+                if let event = eventsSummary.events.first {
+                    var eventViewModel = EventViewModel(event: event)
+                    getOrSetObjectOnUserDefaults(viewModel: &eventViewModel)
+                    completionHandler(eventViewModel)
+                }
             }
             
-            let event = try! JSONDecoder().decode(Events.self, from: data)
-            completionHandler(event)
         }
         task.resume()
     }
+    
+    // Retreives or Sets the object on UserDefaults
+    func getOrSetObjectOnUserDefaults(viewModel: inout EventViewModel) {
+        let idString = String(viewModel.id)
+        let userDefaults = UserDefaults.standard
+        
+        do {
+            let eventViewModelFromUserDefaults = try userDefaults.getObject(forKey: idString, castTo: EventViewModel.self)
+            viewModel = eventViewModelFromUserDefaults
+        } catch {
+            if error.localizedDescription == ObjectSavableError.noValue.rawValue {
+                do {
+                    try userDefaults.setObject(viewModel, forKey: idString)
+                } catch {
+                    print(error.localizedDescription)
+                }
+            } else {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    // Retrieves or Saves the objects on UserDefaults
+    func getOrSetObjectsOnUserDefaults(viewModels: inout [EventViewModel]) {
+        for (index, element) in viewModels.enumerated() {
+            let idString = String(element.id)
+            let userDefaults = UserDefaults.standard
+            
+            do {
+                let viewModel = try userDefaults.getObject(forKey: idString, castTo: EventViewModel.self)
+                viewModels[index] = viewModel
+            } catch {
+                if error.localizedDescription == ObjectSavableError.noValue.rawValue {
+                    do {
+                        try userDefaults.setObject(element, forKey: idString)
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                } else {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
 }

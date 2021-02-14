@@ -30,10 +30,8 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
-        NetworkClient.shared.fetchEvent(id: id) { [self] (event) in
-            if let event = event.events.first {
-                eventViewModel = EventViewModel(event: event)
-            }
+        NetworkClient.shared.fetchEvent(id: id) { [self] (eventViewModel) in
+            self.eventViewModel = eventViewModel
         }
     }
     
