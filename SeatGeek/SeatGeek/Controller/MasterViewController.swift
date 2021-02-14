@@ -107,7 +107,7 @@ extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath) as? EventTableViewCell else { fatalError("Unable to declare tableView cell")}
         // Choses the event from the appropriate array
         let eventViewModel: EventViewModel
-        if isSearching {
+        if isSearching && !searchedEventViewModels.isEmpty {
             eventViewModel = searchedEventViewModels[indexPath.row]
         } else {
             eventViewModel = eventViewModels[indexPath.row]

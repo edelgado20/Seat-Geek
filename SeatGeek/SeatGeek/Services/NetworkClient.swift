@@ -41,7 +41,9 @@ class NetworkClient {
     
     // API call to search for events with custom search text from user
     func fetchSearchEvents(searchText: String, completionHandler: @escaping ([EventViewModel]) -> Void) {
-        guard let url = URL(string: eventsQueryURL+searchText+clientID) else { fatalError("Incorrect URL")}
+        let trimmedSearchText = searchText.replacingOccurrences(of: " ", with: "")
+        let searchUrl = eventsQueryURL+trimmedSearchText+clientID
+        guard let url = URL(string: searchUrl) else { return }
         
         let task = URLSession.shared.dataTask(with: url) { [self] (data, response, error) in
             if let error = error {
