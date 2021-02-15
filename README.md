@@ -3,7 +3,7 @@ SeatGeek allows you to view different events. Anything from sports, concerts, an
 
 ## Requirements
 - iOS 12+
-- Xcode 12
+- Xcode 12+
 
 ## Installation
 
