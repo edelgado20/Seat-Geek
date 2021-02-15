@@ -50,6 +50,7 @@ struct Event: Codable {
     let enddatetimeUTC: String?
     let themes, domainInformation: [String?]
     
+    // Used for testing purposes
     init(name: String, location: String, date: String, performers: [Performer]) {
         title = name
         datetimeUTC = date
@@ -153,6 +154,7 @@ struct Performer: Codable {
     let location: Location?
     let homeTeam, awayTeam: Bool?
     
+    // Used for testing purposes
     init(image: String) {
         self.image = image
         type = ""
@@ -307,6 +309,7 @@ struct Venue: Codable {
     let metroCode, capacity: Int
     var displayLocation: String
     
+    // Used for testing purposes
     init(location: String) {
         displayLocation = location
         state = ""

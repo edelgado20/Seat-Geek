@@ -16,7 +16,7 @@ struct EventViewModel: Codable {
     let imageUrl: String?
     var isFavorite: Bool
     
-    // Dependency Injection (DI)
+    // Dependency Injection
     init(event: Event) {
         self.id = event.id
         self.name = event.title

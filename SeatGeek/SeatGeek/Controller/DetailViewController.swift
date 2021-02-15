@@ -64,6 +64,7 @@ class DetailViewController: UIViewController {
         setupLeftBarButton()
     }
     
+    // Back Button
     func setupLeftBarButton() {
         backButton.setImage(#imageLiteral(resourceName: "back").withRenderingMode(.alwaysOriginal), for: .normal)
         backButton.addTarget(self, action: #selector(backBtnTapped), for: .touchUpInside)
@@ -75,6 +76,7 @@ class DetailViewController: UIViewController {
         navItem.leftBarButtonItem = backBarButtonItem
     }
     
+    // Title Label
     func setupTitleView() {
         DispatchQueue.main.async { [self] in
             let titleLabel = UILabel()
@@ -88,6 +90,7 @@ class DetailViewController: UIViewController {
         }
     }
     
+    // Favorite Button
     func setupRightBarButton() {
         guard let eventViewModel = eventViewModel else { return }
         if eventViewModel.isFavorite {
@@ -109,6 +112,7 @@ class DetailViewController: UIViewController {
         }
     }
     
+    // ImageView, Date, and Location label
     func setupLabels() {
         if let date = eventViewModel?.date, let location = eventViewModel?.location, let imageUrl = eventViewModel?.imageUrl {
             if let url = URL(string: imageUrl) {

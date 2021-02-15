@@ -141,9 +141,9 @@
 				3F2326EB25BE5A6300A71184 /* ViewModel */,
 				3F59C11025BE4AC8002462B5 /* Controller */,
 				3F59C10925BBDF59002462B5 /* Services */,
+				3FB3C11425DA254A003C003C /* Extensions */,
 				3F59C0C725BA7199002462B5 /* AppDelegate.swift */,
 				3F59C0C925BA7199002462B5 /* SceneDelegate.swift */,
-				3FF98DDC25C7A3D6005601BD /* Extension.swift */,
 				3F59C0CD25BA7199002462B5 /* Main.storyboard */,
 				3F59C0D225BA719D002462B5 /* LaunchScreen.storyboard */,
 				3F59C0D025BA719D002462B5 /* Assets.xcassets */,
@@ -201,6 +201,14 @@
 				3F1725B525BF8E5900361415 /* DetailViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		3FB3C11425DA254A003C003C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3FF98DDC25C7A3D6005601BD /* Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		6BBC75FD93294565B47E2ABF /* Frameworks */ = {

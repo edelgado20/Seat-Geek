@@ -46,17 +46,18 @@ class MasterViewController: UIViewController {
         if let index = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRow(at: index, animated: true)
         }
+        // Gets events from userDefaults if they have been store.
         if isSearching {
-            getObjectsFromUserDefaults(viewModels: &searchedEventViewModels)
+            getObjectsFromUserDefaults(viewModels: &searchedEventViewModels) // Searched events
         } else {
-            getObjectsFromUserDefaults(viewModels: &eventViewModels)
+            getObjectsFromUserDefaults(viewModels: &eventViewModels) // Regular events
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let detailVC = segue.destination as? DetailViewController,
               let indexPath = tableView.indexPathForSelectedRow else { return }
-        
+        // Get the ID of the event being selected and pass it to DetailViewController
         let id: String
         if isSearching {
             id = String(searchedEventViewModels[indexPath.row].id)
@@ -76,6 +77,7 @@ class MasterViewController: UIViewController {
         navigationItem.searchController = searchController
     }
     
+    // Looks for the eventViewModels if they have stored on UserDefaults and if not set them.
     func getObjectsFromUserDefaults(viewModels: inout [EventViewModel]) {
         for (index, element) in viewModels.enumerated() {
             let idString = String(element.id)
