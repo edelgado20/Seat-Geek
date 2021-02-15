@@ -9,4 +9,4 @@ SeatGeek allows you to view different events. Anything from sports, concerts, an
 
 Cocoapods
 
-Use CocoaPods to install SDWebImage by adding it to your Podfile
+Use [CocoaPods](https://cocoapods.org/) to install SDWebImage by adding it to your Podfile
