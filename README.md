@@ -6,4 +6,5 @@ SeatGeek allows you to view different events. Anything from sports, concerts, an
 - Xcode 12
 
 ## Installation
-- 
+
+Cocoapods
