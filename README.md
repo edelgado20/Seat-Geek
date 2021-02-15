@@ -9,4 +9,4 @@ SeatGeek allows you to view different events. Anything from sports, concerts, an
 
 ## Running the project
 
-Use the SeatGeek.xcworkspace file to run the project. 
+Use the **SeatGeek.xcworkspace** file to run the project. 
